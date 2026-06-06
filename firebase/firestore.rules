@@ -1,0 +1,68 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+
+    // ── Users ──────────────────────────────────────────────
+    match /users/{userId} {
+      // Read: own profile, or any teacher
+      allow read: if request.auth.uid == userId
+                  || getUserRole() == 'teacher';
+
+      // Create: only during registration (handled by app)
+      allow create: if request.auth.uid == userId;
+
+      // Update: only own profile, only specific fields
+      allow update: if request.auth.uid == userId
+                    && request.resource.data.diff(resource.data)
+                       .affectedKeys()
+                       .hasOnly(['bound_device_token', 'face_embedding',
+                                 'migration_count', 'last_migration']);
+    }
+
+    // ── Active Sessions ───────────────────────────────────
+    match /active_sessions/{sessionId} {
+      // Read: any authenticated user
+      allow read: if request.auth != null;
+
+      // Create: only teachers
+      allow create: if getUserRole() == 'teacher';
+
+      // Update: teachers can end session, students update seat_map
+      allow update: if request.auth != null;
+
+      // Delete: never from client
+      allow delete: if false;
+    }
+
+    // ── Attendance Logs ───────────────────────────────────
+    match /attendance_logs/{logId} {
+      // Create: student writes their own attendance
+      allow create: if request.auth.uid == request.resource.data.student_id;
+
+      // Read: teachers read all, students read own
+      allow read: if getUserRole() == 'teacher'
+                  || request.auth.uid == resource.data.student_id;
+
+      // No updates or deletes from client
+      allow update, delete: if false;
+    }
+
+    // ── Damage Reports ────────────────────────────────────
+    match /damage_reports/{reportId} {
+      // Create: any authenticated user
+      allow create: if request.auth != null;
+
+      // Read: only teachers
+      allow read: if getUserRole() == 'teacher';
+
+      // Update/Delete: only Cloud Functions (admin SDK)
+      allow update, delete: if false;
+    }
+
+    // ── Helper Functions ──────────────────────────────────
+    function getUserRole() {
+      return get(/databases/$(db)/documents/users/$(request.auth.uid))
+             .data.role;
+    }
+  }
+}

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AttendEase — Admin Dashboard</title>
+    <meta name="description" content="AttendEase Smart Attendance Management System - Admin Dashboard">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- LOGIN PAGE                                  -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="login-page" class="page active">
+        <div class="login-container">
+            <!-- Left Panel: Hero -->
+            <div class="login-hero">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="material-icons-round">fingerprint</span>
+                        <span>AttendEase</span>
+                    </div>
+                    <h1 class="hero-title">Precision tracking for the modern campus.</h1>
+                    <p class="hero-subtitle">Seamless authentication, real-time presence analytics, and intelligent damage accountability — all in one platform.</p>
+                    <div class="hero-features">
+                        <div class="hero-feature">
+                            <span class="material-icons-round">bluetooth_searching</span>
+                            <div>
+                                <strong>Smart Proximity</strong>
+                                <span>BLE room validation</span>
+                            </div>
+                        </div>
+                        <div class="hero-feature">
+                            <span class="material-icons-round">qr_code_scanner</span>
+                            <div>
+                                <strong>Seat Verification</strong>
+                                <span>QR-based location proof</span>
+                            </div>
+                        </div>
+                        <div class="hero-feature">
+                            <span class="material-icons-round">face</span>
+                            <div>
+                                <strong>AI Face ID</strong>
+                                <span>On-device biometric match</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-glow"></div>
+            </div>
+
+            <!-- Right Panel: Login Form -->
+            <div class="login-form-panel">
+                <div class="login-form-card">
+                    <div class="login-logo">
+                        <span class="material-icons-round">fingerprint</span>
+                        <span>AttendEase</span>
+                    </div>
+                    <p class="login-label">ADMIN DASHBOARD</p>
+                    <h2 class="login-heading">Welcome Back</h2>
+                    <p class="login-desc">Sign in with your institutional credentials.</p>
+                    
+                    <form id="login-form" onsubmit="handleLogin(event)">
+                        <div class="input-group">
+                            <label for="roll-number">Roll Number / Faculty ID</label>
+                            <div class="input-wrapper">
+                                <span class="material-icons-round input-icon">badge</span>
+                                <input type="text" id="roll-number" placeholder="e.g. FAC-2024-001" required>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="password">Password</label>
+                            <div class="input-wrapper">
+                                <span class="material-icons-round input-icon">lock</span>
+                                <input type="password" id="password" placeholder="Enter password" required>
+                                <button type="button" class="toggle-pw" onclick="togglePassword()">
+                                    <span class="material-icons-round" id="pw-icon">visibility_off</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="login-error" class="login-error" style="display:none"></div>
+                        <button type="submit" class="btn-primary btn-full" id="login-btn">
+                            <span>Sign In</span>
+                            <span class="material-icons-round">arrow_forward</span>
+                        </button>
+                    </form>
+                    <a href="#" class="forgot-link">Forgot Password?</a>
+
+                    <div class="login-footer">
+                        <span>Support</span>
+                        <span>·</span>
+                        <span>Privacy</span>
+                        <span>·</span>
+                        <span>System Status</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- DASHBOARD (main app shell)                  -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="app-shell" class="page">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-top">
+                <div class="sidebar-logo">
+                    <span class="material-icons-round">fingerprint</span>
+                    <span>AttendEase</span>
+                </div>
+                <div class="sidebar-nav">
+                    <button class="nav-item active" data-page="dashboard" onclick="navigateTo('dashboard')">
+                        <span class="material-icons-round">dashboard</span>
+                        <span>Dashboard</span>
+                    </button>
+                    <button class="nav-item" data-page="sessions" onclick="navigateTo('sessions')">
+                        <span class="material-icons-round">cast_for_education</span>
+                        <span>Sessions</span>
+                    </button>
+                    <button class="nav-item" data-page="attendance" onclick="navigateTo('attendance')">
+                        <span class="material-icons-round">fact_check</span>
+                        <span>Attendance</span>
+                    </button>
+                    <button class="nav-item" data-page="damage" onclick="navigateTo('damage')">
+                        <span class="material-icons-round">report_problem</span>
+                        <span>Damage Reports</span>
+                        <span class="nav-badge">3</span>
+                    </button>
+                    <button class="nav-item" data-page="settings" onclick="navigateTo('settings')">
+                        <span class="material-icons-round">settings</span>
+                        <span>Settings</span>
+                    </button>
+                </div>
+            </div>
+            <div class="sidebar-bottom">
+                <div class="user-profile">
+                    <div class="user-avatar">PS</div>
+                    <div class="user-info">
+                        <span class="user-name">Prof. Sharma</span>
+                        <span class="user-role">Faculty</span>
+                    </div>
+                </div>
+                <button class="btn-ghost btn-sm" onclick="handleLogout()">
+                    <span class="material-icons-round">logout</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+
+            <!-- ─── DASHBOARD PAGE ─── -->
+            <section id="page-dashboard" class="content-page active">
+                <div class="page-header">
+                    <div>
+                        <p class="page-label">OVERVIEW</p>
+                        <h1 class="page-title">Good Morning, Prof. Sharma</h1>
+                    </div>
+                    <div class="header-meta">
+                        <span class="material-icons-round">calendar_today</span>
+                        <span id="current-date"></span>
+                    </div>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(154,168,255,0.12)">
+                            <span class="material-icons-round" style="color:#9aa8ff">cast_for_education</span>
+                        </div>
+                        <div class="stat-data">
+                            <span class="stat-value">3</span>
+                            <span class="stat-label">Active Sessions</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(236,130,251,0.12)">
+                            <span class="material-icons-round" style="color:#ec82fb">people</span>
+                        </div>
+                        <div class="stat-data">
+                            <span class="stat-value">127<span class="stat-sub">/150</span></span>
+                            <span class="stat-label">Present Today</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(255,110,132,0.12)">
+                            <span class="material-icons-round" style="color:#ff6e84">warning</span>
+                        </div>
+                        <div class="stat-data">
+                            <span class="stat-value">2</span>
+                            <span class="stat-label">Damage Reports</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(194,159,255,0.12)">
+                            <span class="material-icons-round" style="color:#c29fff">trending_up</span>
+                        </div>
+                        <div class="stat-data">
+                            <span class="stat-value">94.2<span class="stat-sub">%</span></span>
+                            <span class="stat-label">Attendance Rate</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid + Activity -->
+                <div class="dashboard-grid">
+                    <!-- Live Classroom Grid -->
+                    <div class="glass-card grid-card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Live Classroom Grid</h3>
+                                <p class="card-subtitle">Real-time seat occupancy</p>
+                            </div>
+                            <div class="room-selector">
+                                <select id="room-select" onchange="updateGrid()">
+                                    <option>LAB_101</option>
+                                    <option>LAB_102</option>
+                                    <option>LH_201</option>
+                                    <option>LH_202</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="seat-grid" class="seat-grid">
+                            <!-- Generated by JS -->
+                        </div>
+                        <div class="grid-legend">
+                            <div class="legend-item">
+                                <span class="legend-dot occupied"></span>
+                                <span>Occupied</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-dot empty"></span>
+                                <span>Empty</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-dot damaged"></span>
+                                <span>Damage Reported</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity Feed -->
+                    <div class="glass-card activity-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Recent Activity</h3>
+                            <button class="btn-ghost btn-sm">View All</button>
+                        </div>
+                        <div class="activity-feed" id="activity-feed">
+                            <!-- Generated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ─── SESSIONS PAGE ─── -->
+            <section id="page-sessions" class="content-page">
+                <div class="page-header">
+                    <div>
+                        <p class="page-label">SESSIONS</p>
+                        <h1 class="page-title">Manage Sessions</h1>
+                    </div>
+                    <button class="btn-primary" onclick="showStartSession()">
+                        <span class="material-icons-round">add</span>
+                        <span>Start Session</span>
+                    </button>
+                </div>
+                <div class="sessions-list">
+                    <div class="glass-card session-card session-active">
+                        <div class="session-status-dot active"></div>
+                        <div class="session-info">
+                            <h4>Data Structures — LAB_101</h4>
+                            <p>Started 42 min ago · 28/30 seats occupied</p>
+                        </div>
+                        <div class="session-actions">
+                            <button class="btn-ghost btn-sm">View Grid</button>
+                            <button class="btn-danger btn-sm">End Session</button>
+                        </div>
+                    </div>
+                    <div class="glass-card session-card session-active">
+                        <div class="session-status-dot active"></div>
+                        <div class="session-info">
+                            <h4>Operating Systems — LH_201</h4>
+                            <p>Started 15 min ago · 19/40 seats occupied</p>
+                        </div>
+                        <div class="session-actions">
+                            <button class="btn-ghost btn-sm">View Grid</button>
+                            <button class="btn-danger btn-sm">End Session</button>
+                        </div>
+                    </div>
+                    <div class="glass-card session-card">
+                        <div class="session-status-dot ended"></div>
+                        <div class="session-info">
+                            <h4>Database Systems — LAB_102</h4>
+                            <p>Ended 2 hrs ago · 35/40 attended · 87.5% rate</p>
+                        </div>
+                        <div class="session-actions">
+                            <button class="btn-ghost btn-sm">View Report</button>
+                        </div>
+                    </div>
+                    <div class="glass-card session-card">
+                        <div class="session-status-dot ended"></div>
+                        <div class="session-info">
+                            <h4>Computer Networks — LH_202</h4>
+                            <p>Ended 5 hrs ago · 42/45 attended · 93.3% rate</p>
+                        </div>
+                        <div class="session-actions">
+                            <button class="btn-ghost btn-sm">View Report</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ─── ATTENDANCE PAGE ─── -->
+            <section id="page-attendance" class="content-page">
+                <div class="page-header">
+                    <div>
+                        <p class="page-label">RECORDS</p>
+                        <h1 class="page-title">Attendance Records</h1>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn-secondary" onclick="exportExcel()">
+                            <span class="material-icons-round">table_chart</span>
+                            <span>Export Excel</span>
+                        </button>
+                        <button class="btn-secondary" onclick="exportPDF()">
+                            <span class="material-icons-round">picture_as_pdf</span>
+                            <span>Export PDF</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="glass-card filter-bar">
+                    <div class="filter-group">
+                        <span class="material-icons-round">search</span>
+                        <input type="text" placeholder="Search by Student ID..." id="search-input" oninput="filterTable()">
+                    </div>
+                    <select class="filter-select" id="filter-room" onchange="filterTable()">
+                        <option value="">All Rooms</option>
+                        <option>LAB_101</option>
+                        <option>LAB_102</option>
+                        <option>LH_201</option>
+                        <option>LH_202</option>
+                    </select>
+                    <select class="filter-select" id="filter-status" onchange="filterTable()">
+                        <option value="">All Status</option>
+                        <option>Present</option>
+                        <option>Absent</option>
+                    </select>
+                </div>
+
+                <!-- Table -->
+                <div class="glass-card table-container">
+                    <table class="data-table" id="attendance-table">
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Room</th>
+                                <th>Seat</th>
+                                <th>Time</th>
+                                <th>Confidence</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendance-tbody">
+                            <!-- Generated by JS -->
+                        </tbody>
+                    </table>
+                    <div class="table-footer">
+                        <span id="table-count">Showing 1-10 of 127 records</span>
+                        <div class="pagination">
+                            <button class="page-btn"><span class="material-icons-round">chevron_left</span></button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">...</button>
+                            <button class="page-btn">13</button>
+                            <button class="page-btn"><span class="material-icons-round">chevron_right</span></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ─── DAMAGE REPORTS PAGE ─── -->
+            <section id="page-damage" class="content-page">
+                <div class="page-header">
+                    <div>
+                        <p class="page-label">ACCOUNTABILITY</p>
+                        <h1 class="page-title">Damage Incident Feed</h1>
+                    </div>
+                    <select class="filter-select" id="damage-filter" onchange="filterDamage()">
+                        <option value="">All Reports</option>
+                        <option value="GREEN">🟢 Green — Safe</option>
+                        <option value="RED">🔴 Red — Suspect</option>
+                    </select>
+                </div>
+
+                <!-- Damage Stats -->
+                <div class="damage-stats">
+                    <div class="damage-stat-chip">
+                        <span class="stat-num">12</span>
+                        <span>Total Reports</span>
+                    </div>
+                    <div class="damage-stat-chip green">
+                        <span class="stat-num">9</span>
+                        <span>Pre-existing</span>
+                    </div>
+                    <div class="damage-stat-chip red">
+                        <span class="stat-num">3</span>
+                        <span>Suspects</span>
+                    </div>
+                </div>
+
+                <!-- Incident Cards -->
+                <div class="incident-feed" id="incident-feed">
+                    <!-- Generated by JS -->
+                </div>
+            </section>
+
+            <!-- ─── SETTINGS PAGE ─── -->
+            <section id="page-settings" class="content-page">
+                <div class="page-header">
+                    <div>
+                        <p class="page-label">CONFIGURATION</p>
+                        <h1 class="page-title">Settings</h1>
+                    </div>
+                </div>
+                <div class="settings-grid">
+                    <div class="glass-card settings-section">
+                        <h3>Room Configuration</h3>
+                        <p>Manage rooms, seat layouts, and QR code generation.</p>
+                        <button class="btn-secondary btn-sm">Manage Rooms</button>
+                    </div>
+                    <div class="glass-card settings-section">
+                        <h3>BLE Beacon Settings</h3>
+                        <p>Configure Bluetooth beacon UUIDs and RSSI thresholds per room.</p>
+                        <button class="btn-secondary btn-sm">Configure</button>
+                    </div>
+                    <div class="glass-card settings-section">
+                        <h3>Face AI Threshold</h3>
+                        <p>Adjust the Euclidean distance threshold for face verification (default: 0.75).</p>
+                        <div class="threshold-control">
+                            <input type="range" min="0.5" max="1.0" step="0.05" value="0.75" id="threshold-slider">
+                            <span id="threshold-value">0.75</span>
+                        </div>
+                    </div>
+                    <div class="glass-card settings-section">
+                        <h3>Export Preferences</h3>
+                        <p>Choose default export format, date ranges, and included fields.</p>
+                        <button class="btn-secondary btn-sm">Preferences</button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

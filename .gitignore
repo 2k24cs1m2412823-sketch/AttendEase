@@ -1,0 +1,43 @@
+# === Flutter (mobile/) ===
+mobile/.dart_tool/
+mobile/.packages
+mobile/build/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/pubspec.lock
+*.iml
+*.log
+
+# === React (web/) ===
+web/node_modules/
+web/dist/
+web/.env
+web/.env.local
+
+# === Firebase (firebase/) ===
+firebase/functions/node_modules/
+firebase/functions/lib/
+
+# === ML (ml/) ===
+ml/__pycache__/
+ml/*.pyc
+ml/.venv/
+ml/models/*.tflite
+
+# === IDE ===
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === Secrets ===
+google-services.json
+GoogleService-Info.plist
+*.keystore
+*.jks
+firebase-debug.log
+.firebase/

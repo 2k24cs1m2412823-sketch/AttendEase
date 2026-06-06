@@ -1,0 +1,22 @@
+{
+  "name": "attendease-functions",
+  "version": "1.0.0",
+  "description": "AttendEase Cloud Functions — damage analysis, server-side validation",
+  "main": "src/index.js",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "test": "mocha --timeout 10000"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "dependencies": {
+    "firebase-admin": "^11.11.0",
+    "firebase-functions": "^4.5.0"
+  },
+  "devDependencies": {
+    "mocha": "^10.2.0",
+    "chai": "^4.3.10",
+    "firebase-functions-test": "^3.1.0"
+  }
+}
