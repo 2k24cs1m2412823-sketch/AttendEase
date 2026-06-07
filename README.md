@@ -18,7 +18,14 @@
 
 ## 📸 Screenshots
 
-> _Add screenshots here — mobile login, QR scan, face verify screen, and web dashboard grid._
+> _Add screenshots here — mobile login, QR scan, face verify screen, and web dashboard grid._> <img width="287" height="538" alt="image" src="https://github.com/user-attachments/assets/57cae5b1-6b7a-42ad-b43a-f34b4e9189c3" />
+<img width="367" height="679" alt="image" src="https://github.com/user-attachments/assets/bbc18e05-81e9-4b22-8976-04ad35528b31" />
+<img width="368" height="678" alt="image" src="https://github.com/user-attachments/assets/635f2221-71bd-40cc-8b5c-d0824e6f197c" />
+<img width="373" height="680" alt="image" src="https://github.com/user-attachments/assets/cb8a137b-3ec8-48f2-a34a-a689b9c848c5" />
+<img width="416" height="779" alt="image" src="https://github.com/user-attachments/assets/47ed30b8-4900-4f4e-a360-36eb5d246b86" />
+
+
+
 
 ---
 
